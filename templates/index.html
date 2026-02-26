@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}IntelliForge - AI-Powered Portfolio Generator{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-bg">
+        <div class="neural-particles">
+            <div class="particle p-1"></div>
+            <div class="particle p-2"></div>
+            <div class="particle p-3"></div>
+            <div class="particle p-4"></div>
+            <div class="particle p-5"></div>
+            <div class="particle p-6"></div>
+        </div>
+    </div>
+    <div class="hero-content">
+        <div class="hero-card glass-card">
+            <div style="margin-bottom: 20px;">
+                <span class="ai-badge" style="display:inline-block; font-size: 0.8rem; padding: 6px 14px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 6px;">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                    AI Powered Portfolio
+                </span>
+            </div>
+            <h1 class="hero-title" data-animate>
+                Your Resume.<br>
+                Reimagined as an <span class="accent">Intelligent Digital Presence.</span>
+            </h1>
+            <p class="hero-subtitle" data-animate>
+                Upload your resume and let advanced LLMs instantly generate a stunning, interactive portfolio website
+                featuring an autonomous agent that answers questions on your behalf.
+            </p>
+            <div class="hero-actions" data-animate>
+                {% if user %}
+                <a href="/dashboard" class="btn btn-primary btn-lg">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="3" width="7" height="7"></rect>
+                        <rect x="14" y="14" width="7" height="7"></rect>
+                        <rect x="3" y="14" width="7" height="7"></rect>
+                    </svg>
+                    Go to Dashboard
+                </a>
+                {% if user.username %}
+                <a href="/p/{{ user.username }}" class="btn btn-outline btn-lg">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                    View Portfolio
+                </a>
+                {% endif %}
+                {% else %}
+                <a href="/signup" class="btn btn-primary btn-lg">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="8.5" cy="7" r="4"></circle>
+                        <line x1="20" y1="8" x2="20" y2="14"></line>
+                        <line x1="23" y1="11" x2="17" y2="11"></line>
+                    </svg>
+                    Get Started Free
+                </a>
+                <a href="/login" class="btn btn-outline btn-lg">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                        <polyline points="10 17 15 12 10 7"></polyline>
+                        <line x1="15" y1="12" x2="3" y2="12"></line>
+                    </svg>
+                    Login
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features">
+    <div class="container">
+        <h2 class="section-title" data-animate>How It Works</h2>
+        <p class="section-subtitle" data-animate>Our AI-powered platform transforms your professional experience into
+            an interactive portfolio in minutes</p>
+        <div class="feature-grid">
+            <div class="feature-card glass" data-animate>
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                </div>
+                <h3>Upload Resume</h3>
+                <p>Upload your PDF resume and our AI extracts all the key information automatically.</p>
+            </div>
+            <div class="feature-card glass" data-animate>
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                </div>
+                <h3>AI Generates Portfolio</h3>
+                <p>Advanced LLMs structure your data into a professional portfolio with bio, skills, projects, and more.
+                </p>
+            </div>
+            <div class="feature-card glass" data-animate>
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                </div>
+                <h3>Chat Agent Activated</h3>
+                <p>A RAG-powered AI agent answers visitor questions using only your resume context.</p>
+            </div>
+            <div class="feature-card glass" data-animate>
+                <div class="feature-icon">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                </div>
+                <h3>Share Your URL</h3>
+                <p>Get a unique hosted link like <code>/p/yourname</code> to share with recruiters and teams.</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

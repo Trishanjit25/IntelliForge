@@ -1,0 +1,9 @@
+Starting environment fix...
+D:\resume_1\fix_env.ps1 : Failed to setup environment: Python 3.12 not found at 
+C:\Users\HP\AppData\Local\Programs\Python\Python312\python.exe
+At D:\resume_1\fix_env.ps1:17 char:5
++     Write-Error "Failed to setup environment: $_"
++     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [Write-Error], WriteErrorException
+    + FullyQualifiedErrorId : Microsoft.PowerShell.Commands.WriteErrorException,fix_env.ps1
+ 

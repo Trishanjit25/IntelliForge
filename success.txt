@@ -1,0 +1,36 @@
+ Volume in drive D has no label.
+ Volume Serial Number is BA06-D976
+
+ Directory of D:\resume_1
+
+23-02-2026  12:39    <DIR>          .
+23-02-2026  11:22               541 .env
+23-02-2026  11:20               327 .env.example
+23-02-2026  11:20               117 .gitignore
+23-02-2026  11:20    <DIR>          .qoder
+23-02-2026  11:26    <DIR>          .venv
+23-02-2026  11:20             3,939 auth.py
+23-02-2026  11:20               655 chat_test.py
+23-02-2026  11:20    <DIR>          chroma_store
+23-02-2026  11:20             1,225 config.py
+23-02-2026  11:20               779 database.py
+23-02-2026  12:31               291 diag_venv.py
+23-02-2026  11:20               426 Dockerfile
+23-02-2026  11:20             4,461 exporter.py
+23-02-2026  11:20            11,800 generator.py
+23-02-2026  11:20            16,212 main.py
+23-02-2026  11:20               408 migrate_db.py
+23-02-2026  11:20             1,740 models.py
+23-02-2026  11:20            61,440 portfoliai.db
+23-02-2026  11:20             5,945 rag_engine.py
+23-02-2026  11:20               246 requirements-simple.txt
+23-02-2026  11:20               288 requirements.txt
+23-02-2026  11:20    <DIR>          static
+23-02-2026  12:39                 0 success.txt
+23-02-2026  11:20    <DIR>          templates
+23-02-2026  11:20               618 test_api.py
+23-02-2026  11:20               312 test_gemini.py
+23-02-2026  11:20    <DIR>          uploads
+23-02-2026  11:20    <DIR>          __pycache__
+              21 File(s)        111,770 bytes
+               8 Dir(s)  252,463,124,480 bytes free

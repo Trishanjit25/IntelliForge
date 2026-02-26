@@ -1,0 +1,169 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - IntelliForge{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+    <div class="container">
+        <div class="dash-header">
+            <h1>Dashboard</h1>
+            <p>Welcome, <strong>{{ user.username }}</strong></p>
+        </div>
+
+        <div id="alert-box" class="alert hidden"></div>
+
+        <div class="dashboard-layout">
+            <div class="dash-main-grid">
+                <!-- Profile Details Card -->
+                <div class="dash-card glass-card">
+                    <h3>Profile Details</h3>
+                    <div style="margin-bottom: 20px;">
+                        <p style="margin-bottom: 5px;"><strong>Username:</strong> {{ user.username }}</p>
+                        <p><strong>Email:</strong> {{ user.email }}</p>
+                    </div>
+
+                    <h4 style="margin-bottom: 12px; font-size: 1.05rem; color: var(--accent);">Change Password</h4>
+                    <form id="password-form" onsubmit="changePassword(event)">
+                        <div class="form-group">
+                            <input type="password" id="current-password" placeholder="Current Password" required>
+                        </div>
+                        <div class="form-group" style="margin-top: 10px;">
+                            <input type="password" id="new-password" placeholder="New Password" minlength="6" required>
+                        </div>
+                        <button type="submit" class="btn btn-outline" style="margin-top: 10px;" id="password-btn">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                            </svg>
+                            Update Password
+                        </button>
+                    </form>
+                </div>
+
+                <!-- API Key Card -->
+                <div class="dash-card glass-card">
+                    <h3>OpenRouter API Key</h3>
+                    <p class="card-desc">Required to power AI portfolio generation and chat.</p>
+                    <div class="form-group">
+                        <input type="password" id="api-key-input" placeholder="sk-or-..."
+                            value="{{ user.openrouter_api_key or '' }}">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveApiKey()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                            <polyline points="7 3 7 8 15 8"></polyline>
+                        </svg>
+                        Save Key
+                    </button>
+                    <p class="hint">
+                        Get your key at
+                        <a href="https://openrouter.ai/keys" target="_blank" rel="noopener">openrouter.ai/keys</a>
+                    </p>
+                </div>
+
+                <!-- Upload Card -->
+                <div class="dash-card glass-card">
+                    <h3>Upload Resume</h3>
+                    <p class="card-desc">Upload a PDF to generate or regenerate your portfolio.</p>
+                    <form id="upload-form" onsubmit="uploadResume(event)">
+                        <div class="form-group">
+                            <input type="file" id="resume-file" accept=".pdf" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="upload-btn">
+                            {% if portfolio %}
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <polyline points="1 20 1 14 7 14"></polyline>
+                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                            </svg>
+                            Regenerate Portfolio
+                            {% else %}
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                            </svg>
+                            Generate Portfolio
+                            {% endif %}
+                        </button>
+                    </form>
+                    <div id="upload-progress" class="progress-container hidden">
+                        <div class="progress-bar">
+                            <div class="progress-fill"></div>
+                        </div>
+                        <span class="progress-text">Processing...</span>
+                    </div>
+                </div>
+
+                <!-- Portfolio Status Card -->
+                <div class="dash-card glass-card">
+                    <h3>Portfolio Status</h3>
+                    {% if portfolio %}
+                    <div class="status-active">
+                        <span class="status-dot active"></span>
+                        <span>Live & Accessible</span>
+                    </div>
+                    <p class="card-desc">
+                        Your portfolio is live at
+                        <a href="/p/{{ portfolio.slug }}" target="_blank">/p/{{ portfolio.slug }}</a>
+                    </p>
+                    <div class="card-actions">
+                        <a href="/p/{{ portfolio.slug }}" class="btn btn-outline" target="_blank">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                <circle cx="12" cy="12" r="3"></circle>
+                            </svg>
+                            View Portfolio
+                        </a>
+                        <button class="btn btn-danger" onclick="deletePortfolio()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                            Delete
+                        </button>
+                    </div>
+                    {% else %}
+                    <div class="status-active">
+                        <span class="status-dot inactive"></span>
+                        <span>Not Published</span>
+                    </div>
+                    <p class="card-desc">Upload your resume to get started.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Stats/Activity Sidebar -->
+            <div class="dash-sidebar">
+                <div class="dash-card glass-card">
+                    <h3>Usage Statistics</h3>
+                    <div class="stat-list">
+                        <div class="stat-item">
+                            <span class="stat-label">Total Profile Views</span>
+                            <span class="stat-value">1,248</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">AI Chat Interactions</span>
+                            <span class="stat-value">342</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Unique Visitors</span>
+                            <span class="stat-value">415</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">Last Updated</span>
+                            <span class="stat-value">Today</span>
+                        </div>
+                    </div>
+                    <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--glass-border);">
+                        <p class="card-desc" style="font-size: 0.85rem;">*Analytics data is currently aggregated over
+                            the last 30 days.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/dashboard.js"></script>
+{% endblock %}

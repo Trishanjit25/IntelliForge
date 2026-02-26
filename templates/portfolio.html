@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ portfolio.name or 'Portfolio' }} - IntelliForge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="stylesheet" href="/static/css/portfolio.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+</head>
+
+<body class="portfolio-body">
+
+    <div class="portfolio-layout">
+        <!-- Left: Portfolio Content -->
+        <div class="portfolio-content">
+            <!-- Hero Section -->
+            <section class="port-hero">
+                <div class="port-hero-inner">
+                    {% if portfolio.profile_image_url %}
+                    <img class="port-avatar" src="{{ portfolio.profile_image_url }}"
+                        alt="{{ portfolio.name or 'Profile' }}" style="object-fit: cover;">
+                    {% else %}
+                    <div class="port-avatar">{{ (portfolio.name or 'U')[0] }}</div>
+                    {% endif %}
+                    <h1 class="port-name">{{ portfolio.name or 'Portfolio' }}</h1>
+                    <p class="port-role">{{ portfolio.role or '' }}</p>
+                    <p class="port-tagline">{{ portfolio.tagline or '' }}</p>
+                    <div style="margin-top: 24px;">
+                        <a href="/api/portfolio/{{ portfolio.slug }}/export/ppt" class="btn btn-primary"
+                            style="display: inline-flex; align-items: center; gap: 8px;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="7 10 12 15 17 10"></polyline>
+                                <line x1="12" y1="15" x2="12" y2="3"></line>
+                            </svg>
+                            Export to PPT
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            {% if portfolio.bio %}
+            <section class="port-section" id="about">
+                <h2 class="port-section-title">About</h2>
+                <div class="glass port-card">
+                    <p>{{ portfolio.bio }}</p>
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Skills Section -->
+            {% if portfolio.skills %}
+            <section class="port-section" id="skills">
+                <h2 class="port-section-title">Skills</h2>
+                <div class="skills-grid">
+                    {% for skill in portfolio.skills %}
+                    <span class="skill-tag glass">{{ skill }}</span>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Projects Section -->
+            {% if portfolio.projects %}
+            <section class="port-section" id="projects">
+                <h2 class="port-section-title">Projects</h2>
+                <div class="projects-grid">
+                    {% for proj in portfolio.projects %}
+                    <div class="project-card glass">
+                        <h3>{{ proj.title or 'Untitled Project' }}</h3>
+                        <p>{{ proj.description or '' }}</p>
+                        {% if proj.technologies %}
+                        <div class="tech-tags">
+                            {% for tech in proj.technologies %}
+                            <span class="tech-tag">{{ tech }}</span>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Experience Section -->
+            {% if portfolio.experience %}
+            <section class="port-section" id="experience">
+                <h2 class="port-section-title">Experience</h2>
+                <div class="timeline">
+                    {% for exp in portfolio.experience %}
+                    <div class="timeline-item glass">
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <h3>{{ exp.role or '' }}</h3>
+                            <p class="timeline-company">{{ exp.company or '' }}</p>
+                            <p class="timeline-duration">{{ exp.duration or '' }}</p>
+                            <p>{{ exp.description or '' }}</p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Education Section -->
+            {% if portfolio.education %}
+            <section class="port-section" id="education">
+                <h2 class="port-section-title">Education</h2>
+                <div class="edu-grid">
+                    {% for edu in portfolio.education %}
+                    <div class="edu-card glass">
+                        <h3>{{ edu.degree or '' }}</h3>
+                        <p class="edu-institution">{{ edu.institution or '' }}</p>
+                        <p class="edu-year">{{ edu.year or '' }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Achievements Section -->
+            {% if portfolio.achievements %}
+            <section class="port-section" id="achievements">
+                <h2 class="port-section-title">Achievements</h2>
+                <div class="glass port-card">
+                    <ul class="achievements-list">
+                        {% for ach in portfolio.achievements %}
+                        <li>{{ ach }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </section>
+            {% endif %}
+
+            <!-- Contact Section -->
+            {% if portfolio.contact %}
+            <section class="port-section" id="contact">
+                <h2 class="port-section-title">Contact</h2>
+                <div class="contact-grid">
+                    {% if portfolio.contact.email %}
+                    <a href="mailto:{{ portfolio.contact.email }}" class="contact-item glass">
+                        <span class="contact-label">Email</span>
+                        <span>{{ portfolio.contact.email }}</span>
+                    </a>
+                    {% endif %}
+                    {% if portfolio.contact.linkedin %}
+                    <a href="{% if not portfolio.contact.linkedin.startswith('http') %}https://{% endif %}{{ portfolio.contact.linkedin }}"
+                        target="_blank" class="contact-item glass">
+                        <span class="contact-label">LinkedIn</span>
+                        <span>View Profile</span>
+                    </a>
+                    {% endif %}
+                    {% if portfolio.contact.github %}
+                    <a href="{% if not portfolio.contact.github.startswith('http') %}https://{% endif %}{{ portfolio.contact.github }}"
+                        target="_blank" class="contact-item glass">
+                        <span class="contact-label">GitHub</span>
+                        <span>View Profile</span>
+                    </a>
+                    {% endif %}
+                    {% if portfolio.contact.website %}
+                    <a href="{% if not portfolio.contact.website.startswith('http') %}https://{% endif %}{{ portfolio.contact.website }}"
+                        target="_blank" class="contact-item glass">
+                        <span class="contact-label">Website</span>
+                        <span>Visit</span>
+                    </a>
+                    {% endif %}
+                    {% if portfolio.contact.phone %}
+                    <div class="contact-item glass">
+                        <span class="contact-label">Phone</span>
+                        <span>{{ portfolio.contact.phone }}</span>
+                    </div>
+                    {% endif %}
+                </div>
+            </section>
+            {% endif %}
+
+            <footer class="port-footer">
+                <p>Built with <a href="/">IntelliForge</a></p>
+            </footer>
+        </div>
+
+        <!-- Floating Chat Icon -->
+        <button id="chat-toggle-btn" class="chat-toggle-btn glass" onclick="toggleChat()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+        </button>
+
+        <!-- Right: Chat Panel -->
+        <div id="chat-panel-container" class="chat-panel-container collapsed">
+            <div class="chat-panel glass">
+                <div class="chat-header">
+                    <h3>Chat with {{ portfolio.name or 'this candidate' }}'s AI</h3>
+                    <button class="chat-close-btn" onclick="toggleChat()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                    <p class="chat-hint">Ask anything about their experience, skills, or projects.</p>
+                </div>
+                <div class="chat-messages" id="chat-messages">
+                    <div class="chat-bubble bot">
+                        <p>Hi! I'm the AI assistant for {{ portfolio.name or 'this candidate' }}. Ask me anything about
+                            their background, skills, or experience.</p>
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <form id="chat-form" onsubmit="sendMessage(event)">
+                        <input type="text" id="chat-input" placeholder="Type your question..." autocomplete="off"
+                            required>
+                        <button type="submit" class="btn btn-primary" id="chat-send">Send</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const PORTFOLIO_SLUG = "{{ portfolio.slug }}";
+    </script>
+    <script src="/static/js/app.js?v=2"></script>
+    <script src="/static/js/chat.js?v=2"></script>
+</body>
+
+</html>
