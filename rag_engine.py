@@ -121,9 +121,7 @@ async def chat(
     consolidated_prompt += f"\nUSER: {user_message}\nASSISTANT:"
 
     # Hardcode the Gemini API key as requested by the user
-    gemini_api_key = "AIzaSyCYhzjQdUOmnKuIY2jvgzy5WfF2yf3S2FI"
-    gemini_url = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={gemini_api_key}"
-
+    
     payload = {
         "contents": [{
             "parts": [{"text": consolidated_prompt}]
